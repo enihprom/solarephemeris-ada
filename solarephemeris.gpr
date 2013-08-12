@@ -1,0 +1,19 @@
+project solarephemeris is
+
+   type Mode_Type is ("Profile", "Debug");
+   Mode : Mode_Type := external ("BUILD", "Debug");
+
+   package Compiler is
+     case Mode is
+         when "Debug" =>
+            for Default_Switches ("Ada") use
+					("-g", "-gnato", "-fstack-check", "-gnatwcb", "-gnatVf");
+         when "Profile" =>
+            for Default_Switches ("Ada") use 
+					("-gnatp", "-O2", "-gnatE");
+     end case;
+   end Compiler;
+
+	for Main use ("test_geocentric_sun.adb");
+
+end solarephemeris;
